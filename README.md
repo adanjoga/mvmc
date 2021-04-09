@@ -1,8 +1,22 @@
-**MVMC**: An evolutionary many-objective approach to multiview clustering using feature and relational data.
+**MVMC** is multiview data clustering algorithm based on multiobjective evolutionary optimization, where the multiview property refers to the availability of multiple feature sets and/or multiple relational descriptions. The approach takes advantage of many-objective optimization concepts to explore a range of (Pareto optimal) trade-offs, while scaling to settings with three or more data views.
 
-Developed by Adan Jose-Garcia (adanjoga@gmail.com)
 
-Please, cite the following paper where this algorithm was introduced:
+**MVMC** is described in detail in our paper:
 
-[PENDING]...
+```
+A. José-García, J Handl, W. Gómez-Flores, and M. Garza-Fabre
+An Evolutionary Many-objective Approach to Multiview Clustering Using Feature and Relational Data
+Applied Soft Computing
+(**in press**)
+```
 
+For more information about multiview clustering approaches and multview datasets, visit our [mvc-repository](https://mvc-repository.github.io/) website.
+
+## Contact:
+
+```
+Adán José-García (adanjoga@gmail.com)
+Julia Handl (julia.handl@manchester.ac.uk)
+Wilfrido Gómez-Flores (wgomez@cinvestav.mx)
+Mario Garza-Fabre (garzafabre@gmail.com)
+```
