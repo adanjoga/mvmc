@@ -7,6 +7,7 @@
 %   + uniform crossover (Cr=0.05) and 
 %   + uniform mutation (Cm=0.03)
 %
+% MVMC uses the MOEA/D algorithm as the underlying optimizer:
 % Qingfu Zhang and Hui Li, 2007. MOEA/D: A Multiobjective Evolutionary 
 % based on Decomposition optimization. IEEE Transactions on Evolutionary Computation.
 % Vol 11, No. 6, 712-731.
@@ -21,10 +22,12 @@ Nobj    = MVMCparams.NOBJ;      % Number of objectives.
 Niche   = MVMCparams.Niche;     % The neighboursize  
 Dmethod = MVMCparams.Method;    % The decomposition method, 'ws' or 'ts'.
 
-T       = MVMCparams.Labels;    % TEMP
-
 objective = 'wgs';
 [cvifun,opt] = cviconfig(objective);
+
+if nargin == 3
+    Display = false;
+end
 
 Views_norm = cell(1,Nobj);
 for m = 1:Nobj
@@ -51,7 +54,6 @@ NP = length(Subproplems);
 individual = struct('var',[], 'obj',[], 'nobj',[], 'w',[], 'clrs',[]);
 individuals = repmat(individual,NP,1);
 
-ARIstat = NaN(NP,2); ARItemp = NaN(NP,1);
 %% Evalution of the initial population
 for i=1:NP
     % Generation of medoids Pi in {1,...,N}
@@ -73,7 +75,6 @@ for i=1:NP
     individuals(i).clrs = Clr;
 
     Subproplems(i).individual = individuals(i);
-    ARItemp(i)= pairwiseindex(T,Clr);
 end
 Fit = [individuals.nobj];
 if strcmpi(opt,'mn')
@@ -81,8 +82,7 @@ if strcmpi(opt,'mn')
 end
 
 if Display
-    [~,idx]=max(ARItemp);
-    disp(['Iteration 0 | iARIavg=' num2str(mean(ARItemp)) ' iARImax=' num2str(max(ARItemp)) ' ID=' num2str(idx)]);
+    disp(['Iteration 0']);
     disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 end
 %% Evolution process
@@ -150,15 +150,11 @@ for g=1:MAXGEN
         [neighbours(C).individual] = deal(ind);
         Subproplems(nindex) = neighbours;
         
-        ARItemp(i)= pairwiseindex(T,Clr);
     end
     Pop = [Subproplems.individual];
     nPFront = [Pop.nobj];
     if Display
-        ARIstat(g,1) = mean(ARItemp); ARIstat(g,2) = max(ARItemp);
-        [~,idx]=max(ARItemp);
-        
-        disp(['Iteration ' num2str(g) '| iARIavg=' num2str(ARIstat(g,1)) ' iARImax=' num2str(ARIstat(g,2)) ' ID=' num2str(idx)]);
+        disp(['Iteration ' num2str(g)]);
         disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
         PrinterDisplay(nPFront',Nobj); % To print results on screen
     end
@@ -179,7 +175,6 @@ OUT.nPFront = nPFront(:,Idx')'; % Normalized Pareto front approximation
 OUT.PFront  = PFront(:,Idx')';   % Pareto front approximation
 OUT.PClrs   = PClrs(:,Idx');
 OUT.W       = W(:,Idx')';
-OUT.ARIstat = ARIstat;
 
 if Display
     disp('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
@@ -202,7 +197,7 @@ end
 end
 %% Print and Display information
 function PrinterDisplay(PFront, Nobj)
-figure(123);
+figure(123); set(gcf, 'color','white');
 %hold on;
 if Nobj == 2
     plot(PFront(:,1),PFront(:,2),'*r'); grid on; 
@@ -268,7 +263,6 @@ for xpop = 1:N
             end
         end
     end
-    
     if Dominado == 0
         Indx(xpop) = true;
     end
@@ -282,19 +276,17 @@ Indx = false(N,1);
 for xpop = 1:N
     Dominado=0;
     for compara = 1:N
-
-            if strcmpi(opt,'mn')
-                if F(xpop,:) > F(compara,:)
-                    Dominado=1;
-                    break;
-                end
-            elseif strcmpi(opt,'mx')
-                if F(xpop,:) <= F(compara,:)
-                    Dominado=1;
-                    break;
-                end
+        if strcmpi(opt,'mn')
+            if F(xpop,:) > F(compara,:)
+                Dominado=1;
+                break;
             end
-        %end
+        elseif strcmpi(opt,'mx')
+            if F(xpop,:) <= F(compara,:)
+                Dominado=1;
+                break;
+            end
+        end
     end
     
     if Dominado == 0

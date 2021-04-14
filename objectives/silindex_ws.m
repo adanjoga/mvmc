@@ -1,4 +1,4 @@
-function f = ws_silindex(Clrs,K,DXX)
+function f = silindex_ws(Clrs,K,DXX)
 % Validacion del agrupamiento
 N = numel(Clrs);
 clusts = unique(Clrs);

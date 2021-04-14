@@ -4,7 +4,7 @@
 **MVMC** is described in detail in our paper:
 
 ```
-A. José-García, J Handl, W. Gómez-Flores, and M. Garza-Fabre
+A. José-García, J. Handl, W. Gómez-Flores, and M. Garza-Fabre
 An Evolutionary Many-objective Approach to Multiview Clustering Using Feature and Relational Data
 Applied Soft Computing
 (**in press**)
