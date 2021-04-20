@@ -5,9 +5,10 @@
 
 ```
 A. José-García, J. Handl, W. Gómez-Flores, and M. Garza-Fabre
-An Evolutionary Many-objective Approach to Multiview Clustering Using Feature and Relational Data
-Applied Soft Computing
-(**in press**)
+An Evolutionary Many-objective Approach to Multiview Clustering Using Feature and Relational Data.
+Applied Soft Computing. 
+https://doi.org/10.1016/j.asoc.2021.107425
+**in press**
 ```
 
 For more information about multiview clustering approaches and multview datasets, visit our [mvc-repository](https://mvc-repository.github.io/) website.
